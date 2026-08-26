@@ -50,4 +50,12 @@ describe('epoch', () => {
   it('genesis week is 1', () => {
     assert.equal(weekIndexAt(new Date(GENESIS_UTC + 1000)), 1);
   });
+
+  it('26 Aug 2026 is still week 1', () => {
+    assert.equal(weekIndexAt(new Date('2026-08-26T04:00:00Z')), 1);
+  });
+
+  it('trades before genesis are not ranked', () => {
+    assert.equal(weekIndexAt(new Date('2026-08-17T12:00:00Z')), 0);
+  });
 });

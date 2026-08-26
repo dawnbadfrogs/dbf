@@ -1,5 +1,5 @@
-/** Weekly epoch: Monday 00:00 UTC → next Monday. Genesis = first Monday of Aug 2026. */
-export const GENESIS_UTC = Date.UTC(2026, 7, 3);
+/** Weekly epoch: Monday 00:00 UTC → next Monday. Genesis = Mon 24 Aug 2026 (public week 1). */
+export const GENESIS_UTC = Date.UTC(2026, 7, 24);
 export const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 export const CLAIM_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
 export const WASH_MS = 24 * 60 * 60 * 1000;
@@ -13,7 +13,8 @@ export function epochStartUtc(now = new Date()) {
 
 export function weekIndexAt(at = new Date()) {
   const start = epochStartUtc(at);
-  return Math.max(1, Math.floor((start - GENESIS_UTC) / WEEK_MS) + 1);
+  if (start < GENESIS_UTC) return 0;
+  return Math.floor((start - GENESIS_UTC) / WEEK_MS) + 1;
 }
 
 export function epochBounds(weekIndex) {

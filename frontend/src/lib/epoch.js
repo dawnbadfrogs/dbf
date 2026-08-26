@@ -1,5 +1,5 @@
-/** Weekly epoch: Monday 00:00 UTC → next Monday. Genesis = first Monday of Aug 2026. */
-const GENESIS_UTC = Date.UTC(2026, 7, 3);
+/** Weekly epoch: Monday 00:00 UTC → next Monday. Genesis = Mon 24 Aug 2026 (public week 1). */
+const GENESIS_UTC = Date.UTC(2026, 7, 24);
 
 export function getCurrentEpoch(now = new Date()) {
   const t = now instanceof Date ? now.getTime() : new Date(now).getTime();
@@ -14,7 +14,10 @@ export function getCurrentEpoch(now = new Date()) {
   const duration = end.getTime() - start.getTime();
   const progress = Math.max(0, Math.min(100, (elapsed / duration) * 100));
   const daysLeft = Math.max(0, Math.ceil((end.getTime() - t) / (24 * 60 * 60 * 1000)));
-  const weekIndex = Math.max(1, Math.floor((start.getTime() - GENESIS_UTC) / duration) + 1);
+  const weekIndex =
+    start.getTime() < GENESIS_UTC
+      ? 0
+      : Math.floor((start.getTime() - GENESIS_UTC) / duration) + 1;
   const hoursIntoEpoch = elapsed / (60 * 60 * 1000);
   const hoursLeft = Math.max(0, (end.getTime() - t) / (60 * 60 * 1000));
 

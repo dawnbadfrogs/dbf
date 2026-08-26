@@ -48,6 +48,7 @@ export async function runIndexer(supabase, { pool } = {}) {
 
     const byWeek = new Map();
     for (const r of replayed.realizations) {
+      if (!(r.week >= 1)) continue;
       if (!byWeek.has(r.week)) byWeek.set(r.week, { realized: 0, wash: 0 });
       const row = byWeek.get(r.week);
       row.realized += r.realized;
@@ -58,6 +59,7 @@ export async function runIndexer(supabase, { pool } = {}) {
       byWeek.set(current.weekIndex, { realized: 0, wash: 0 });
     }
     for (const [week, pnl] of byWeek) {
+      if (!(week >= 1)) continue;
       scoreMap.set(`${week}:${wallet}`, {
         week_index: week,
         wallet_address: wallet,
