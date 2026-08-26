@@ -36,7 +36,7 @@ export default function ModuleShell({
           {badge && (
             <span
               data-mod-badge
-              className={`self-start rounded-xl border-[3px] border-cartoon-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wider shadow-[3px_3px_0_#1A1030] ${badgeClass}`}
+              className={`self-start rounded-xl border-[3px] border-cartoon-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wider shadow-[3px_3px_0_#111314] ${badgeClass}`}
             >
               {badge}
             </span>
@@ -60,10 +60,10 @@ export function StatCard({ label, value, hint, accent = 'text-cartoon-cream' }) 
   );
 }
 
-export function ProgressBar({ value, color = '#4CFF6B' }) {
+export function ProgressBar({ value, color = '#70C431' }) {
   const pct = Math.max(0, Math.min(100, value));
   return (
-    <div className="h-4 overflow-hidden rounded-lg border-[3px] border-cartoon-ink bg-[#12263A] shadow-[2px_2px_0_#1A1030]">
+    <div className="h-4 overflow-hidden rounded-lg border-[3px] border-cartoon-ink bg-[#1A1D1E] shadow-[2px_2px_0_#111314]">
       <div
         className="h-full rounded-sm transition-all duration-500"
         style={{ width: `${pct}%`, background: color }}

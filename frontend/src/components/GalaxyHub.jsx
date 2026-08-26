@@ -12,7 +12,7 @@ const ORBS = [
   {
     id: 'leaderboard',
     label: 'Rekt Leaderboard',
-    accent: '#4CFF6B',
+    accent: '#70C431',
     // Sit on the pond sand bed (matches HeroCanvas LakeBed ~y -2.9)
     path: { x: -0.55, y: 0, floor: -2.42 },
     form: 'classic',
@@ -36,7 +36,7 @@ const ORBS = [
   {
     id: 'treasury',
     label: 'Treasury',
-    accent: '#FFE566',
+    accent: '#D9FFB8',
     path: { x: 1.28, y: 0.35 },
     lines: ['Inflows', 'Airdrops', 'Epoch pool'],
     form: 'king',

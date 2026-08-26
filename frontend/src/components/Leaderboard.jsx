@@ -90,7 +90,7 @@ const Leaderboard = ({ active = true, onBack }) => {
           </div>
           <span
             data-reveal-badge
-            className="self-start rounded-xl border-[3px] border-cartoon-ink bg-pond-red px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-cartoon-cream shadow-[3px_3px_0_#1A1030]"
+            className="self-start rounded-xl border-[3px] border-cartoon-ink bg-pond-red px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-cartoon-cream shadow-[3px_3px_0_#111314]"
           >
             {epoch.label} · {Math.round(epoch.progress)}%
           </span>
@@ -110,7 +110,7 @@ const Leaderboard = ({ active = true, onBack }) => {
           <div className="overflow-x-auto">
             <table className="min-w-full text-left">
               <thead>
-                <tr className="border-b-[3px] border-cartoon-ink bg-[#12263A]/90">
+                <tr className="border-b-[3px] border-cartoon-ink bg-[#2C3133]/90">
                   <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-cartoon-yellow">
                     Rank
                   </th>

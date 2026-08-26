@@ -43,10 +43,10 @@ const Navbar = ({
           onClick={onLogoClick}
           className="flex cursor-pointer items-center gap-2"
         >
-          <span className="text-xl font-black tracking-wider text-pond-green [text-shadow:2px_2px_0_#1A1030]">
+          <span className="slime-type slime-type--nav text-xl tracking-wider">
             {APP_SHORT}
           </span>
-          <span className="rounded-lg border-[2.5px] border-cartoon-ink bg-pond-green px-2 py-0.5 text-[10px] font-bold text-cartoon-ink shadow-[2px_2px_0_#1A1030]">
+          <span className="rounded-lg border-[2.5px] border-cartoon-ink bg-pond-green px-2 py-0.5 text-[10px] font-bold text-cartoon-ink shadow-[2px_2px_0_#111314]">
             SOL
           </span>
         </button>

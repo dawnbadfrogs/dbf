@@ -7,9 +7,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'pond-dark': '#1A1A1A',
-        'pond-green': '#00C749',
-        'pond-red': '#FF4F58',
+        'pond-dark': '#1A1D1E',
+        'pond-green': '#70C431',
+        'pond-red': '#FF5C7A',
       },
     },
   },

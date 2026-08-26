@@ -71,7 +71,7 @@ export default function TreasuryPage({ active = true, onBack }) {
       </p>
 
       <div data-mod-block className="toon-panel mb-6 overflow-hidden">
-        <div className="border-b-[3px] border-cartoon-ink bg-[#12263A]/90 px-5 py-3">
+        <div className="border-b-[3px] border-cartoon-ink bg-[#2C3133]/90 px-5 py-3">
           <h3 className="text-sm font-extrabold uppercase tracking-wider text-cartoon-yellow">
             Recent flows
           </h3>

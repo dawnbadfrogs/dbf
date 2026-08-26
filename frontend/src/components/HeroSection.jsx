@@ -92,7 +92,7 @@ const HeroSection = ({ phase = 'hero', onGetStarted }) => {
           <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 items-center">
             <h1
               ref={typeRef}
-              className="hero-type select-none font-black uppercase leading-[0.95] tracking-[-0.02em] text-cartoon-cream"
+              className="hero-type select-none font-black uppercase leading-[0.95] tracking-[-0.02em]"
             >
               {LINES.map((line, lineIdx) => (
                 <span

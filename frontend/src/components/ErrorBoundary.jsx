@@ -13,7 +13,7 @@ export default class ErrorBoundary extends Component {
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <div className="flex min-h-[100svh] items-center justify-center bg-[#026A7A] px-4">
+      <div className="flex min-h-[100svh] items-center justify-center bg-[#1A1D1E] px-4">
         <div className="toon-panel max-w-md p-6 text-center">
           <p className="module-title !text-2xl">Pond hiccup</p>
           <p className="mt-3 text-sm font-semibold text-cartoon-cream/75">

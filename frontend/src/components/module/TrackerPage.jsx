@@ -133,7 +133,7 @@ export default function TrackerPage({ active = true, onBack }) {
       )}
 
       <div data-mod-block className="toon-panel overflow-hidden">
-        <div className="border-b-[3px] border-cartoon-ink bg-[#12263A]/90 px-5 py-3">
+        <div className="border-b-[3px] border-cartoon-ink bg-[#2C3133]/90 px-5 py-3">
           <h3 className="text-sm font-extrabold uppercase tracking-wider text-cartoon-yellow">
             Checkpoint status
           </h3>
@@ -146,7 +146,7 @@ export default function TrackerPage({ active = true, onBack }) {
                 className={`rounded-lg border-2 border-cartoon-ink px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider ${
                   item.done
                     ? 'bg-pond-green text-cartoon-ink'
-                    : 'bg-[#12263A] text-cartoon-cream/55'
+                    : 'bg-[#2C3133] text-cartoon-cream/55'
                 }`}
               >
                 {item.done ? 'Done' : 'Pending'}

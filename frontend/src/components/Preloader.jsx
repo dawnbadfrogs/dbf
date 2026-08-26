@@ -137,7 +137,7 @@ export default function Preloader({ onComplete }) {
       >
         <p
           ref={percentRef}
-          className="preloader-percent mb-3 md:mb-4 text-4xl md:text-6xl font-bold tracking-tight tabular-nums text-cartoon-cream [text-shadow:3px_3px_0_#1A1030]"
+          className="preloader-percent mb-3 md:mb-4 text-4xl md:text-6xl font-bold tracking-tight tabular-nums text-cartoon-cream [text-shadow:3px_3px_0_#111314]"
         >
           0%
         </p>
@@ -145,7 +145,7 @@ export default function Preloader({ onComplete }) {
         <div className="preloader-row flex w-full items-center gap-3 md:gap-4">
           <span className="preloader-mark preloader-mark-d" aria-hidden="true" />
 
-          <div className="preloader-capsule relative h-7 md:h-9 flex-1 overflow-hidden rounded-xl border-[3px] border-cartoon-ink bg-cartoon-sky shadow-[3px_3px_0_#1A1030]">
+          <div className="preloader-capsule relative h-7 md:h-9 flex-1 overflow-hidden rounded-xl border-[3px] border-cartoon-ink bg-cartoon-sky shadow-[3px_3px_0_#111314]">
             <div
               ref={fillRef}
               className="preloader-fill absolute inset-y-0 left-0 w-0 rounded-lg bg-pond-green"
@@ -154,7 +154,7 @@ export default function Preloader({ onComplete }) {
 
           <span className="preloader-mark preloader-mark-star" aria-hidden="true" />
 
-          <span className="preloader-brand text-3xl md:text-5xl font-bold lowercase leading-none tracking-tight text-cartoon-cream [text-shadow:3px_3px_0_#1A1030]">
+          <span className="preloader-brand slime-type slime-type--nav text-3xl md:text-5xl font-bold lowercase leading-none tracking-tight">
             dbf
           </span>
         </div>

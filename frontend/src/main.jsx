@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')).render(
       config={{
         appearance: {
           theme: 'dark',
-          accentColor: '#4CFF6B',
+          accentColor: '#70C431',
           logo: '/logodbf.png',
           walletChainType: 'solana-only',
           showWalletLoginFirst: true,

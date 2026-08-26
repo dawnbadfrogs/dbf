@@ -19,9 +19,9 @@ function makeCanvas() {
   return canvas;
 }
 
-const INK = '#1A1030';
-const CREAM = '#FFF8E7';
-const PANEL = '#1E3A5F';
+const INK = '#111314';
+const CREAM = '#EAF6D8';
+const PANEL = '#2C3133';
 const FONT = '"Fredoka", "Nunito", ui-rounded, system-ui, sans-serif';
 
 function roundRect(ctx, x, y, w, h, r) {
@@ -59,7 +59,7 @@ function paintBase(ctx, accent) {
   ctx.fill();
 
   // Soft highlight
-  ctx.fillStyle = 'rgba(255,248,231,0.12)';
+  ctx.fillStyle = 'rgba(234,246,216,0.12)';
   roundRect(ctx, SIZE * 0.14, SIZE * 0.22, SIZE * 0.35, SIZE * 0.18, 16);
   ctx.fill();
 }
@@ -72,7 +72,7 @@ function clipPlanet(ctx, draw) {
   ctx.restore();
 }
 
-export function drawLeaderboardTexture(ctx, rows, accent = '#4CFF6B') {
+export function drawLeaderboardTexture(ctx, rows, accent = '#70C431') {
   paintBase(ctx, accent);
 
   clipPlanet(ctx, () => {

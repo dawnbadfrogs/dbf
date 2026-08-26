@@ -2,8 +2,7 @@ import { useMemo, useRef, useEffect, Suspense, useState, useLayoutEffect } from 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const WATER = '#026A7A';
-const WATER_DEEP = '#013A48';
+const WATER = '#243028';
 const IDLE_Z = 6;
 const IDLE_FOV = 55;
 const SETTLE_Z = 4.2;
@@ -20,7 +19,7 @@ const WOOD_COLORS = ['#C4894A', '#D4A06A', '#B87538'];
 let geoCache = {};
 let texCache = {};
 // Bust caches when geometry/UV pipeline changes (HMR-safe)
-const ASSET_CACHE_VER = 5;
+const ASSET_CACHE_VER = 6;
 if (typeof window !== 'undefined' && window.__dbfAssetVer !== ASSET_CACHE_VER) {
   window.__dbfAssetVer = ASSET_CACHE_VER;
   geoCache = {};
@@ -1200,7 +1199,7 @@ function PondHeroProps({ mouse }) {
           <meshStandardMaterial color="#8A919A" map={rockMap} roughness={0.65} />
         </mesh>
       </group>
-      <pointLight position={[2.2, 1.4, 2]} intensity={0.45} color="#B5EDE4" distance={9} decay={1.6} />
+      <pointLight position={[2.2, 1.4, 2]} intensity={0.45} color="#D9FFB8" distance={9} decay={1.6} />
       <pointLight position={[-2.2, 0.4, 1.5]} intensity={0.2} color="#F0A070" distance={8} decay={1.6} />
     </group>
   );
@@ -1342,7 +1341,7 @@ function Bubbles({ travelRef, count = 120 }) {
       </bufferGeometry>
       <pointsMaterial
         map={map}
-        color="#E8FFFC"
+        color="#D9FFB8"
         size={0.22}
         transparent
         opacity={0.32}
@@ -1394,8 +1393,8 @@ function getCausticMap() {
       const y = (i * 53) % s;
       const r = 40 + (i % 5) * 18;
       const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, 'rgba(200,255,250,0.55)');
-      g.addColorStop(0.45, 'rgba(140,230,240,0.18)');
+      g.addColorStop(0, 'rgba(217,255,184,0.55)');
+      g.addColorStop(0.45, 'rgba(112,196,49,0.18)');
       g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = g;
       ctx.beginPath();
@@ -1492,7 +1491,7 @@ function GodRays() {
         <planeGeometry args={[22, 18]} />
         <meshBasicMaterial
           map={map}
-          color="#A8F0FF"
+          color="#B6F06A"
           transparent
           opacity={0.1}
           depthWrite={false}
@@ -1514,7 +1513,7 @@ function GodRays() {
             <planeGeometry args={[s.w, s.h, 1, 8]} />
             <meshBasicMaterial
               map={map}
-              color={i % 3 === 0 ? '#D8FFF8' : '#B5F4FF'}
+              color={i % 3 === 0 ? '#D9FFB8' : '#B6F06A'}
               transparent
               opacity={s.base}
               depthWrite={false}
@@ -1537,7 +1536,7 @@ function GodRays() {
             <coneGeometry args={[1.6, 12, 24, 1, true]} />
             <meshBasicMaterial
               map={map}
-              color="#C4FFF6"
+              color="#C8FF7A"
               transparent
               opacity={c.base}
               depthWrite={false}
@@ -1576,7 +1575,7 @@ function WaterSurface() {
         <meshBasicMaterial
           ref={mat}
           map={map}
-          color="#C8FAFF"
+          color="#D9FFB8"
           transparent
           opacity={0.18}
           depthWrite={false}
@@ -1590,7 +1589,7 @@ function WaterSurface() {
         <circleGeometry args={[7, 48]} />
         <meshBasicMaterial
           map={map}
-          color="#E8FFFC"
+          color="#EAF6D8"
           transparent
           opacity={0.24}
           depthWrite={false}
@@ -1950,7 +1949,7 @@ function LakeBed({ dense = true }) {
         <planeGeometry args={[22, 18]} />
         <meshBasicMaterial
           map={causticMap}
-          color="#B8FFF8"
+          color="#D9FFB8"
           transparent
           opacity={0.22}
           depthWrite={false}
@@ -1962,7 +1961,7 @@ function LakeBed({ dense = true }) {
         <circleGeometry args={[5.5, 48]} />
         <meshBasicMaterial
           map={causticMapB}
-          color="#E0FFFC"
+          color="#EAF6D8"
           transparent
           opacity={0.12}
           depthWrite={false}
@@ -2001,7 +2000,7 @@ function SoftFillRig() {
         ref={fill}
         position={[0, 3, 2]}
         intensity={0.38}
-        color="#B8F4F0"
+        color="#D9FFB8"
         distance={18}
         decay={1.4}
       />
@@ -2012,7 +2011,7 @@ function SoftFillRig() {
         angle={0.55}
         penumbra={0.85}
         intensity={1.2}
-        color="#D8FFFC"
+        color="#EAF6D8"
         distance={22}
         decay={1.6}
         castShadow={false}
@@ -2023,7 +2022,7 @@ function SoftFillRig() {
         angle={0.42}
         penumbra={0.9}
         intensity={0.75}
-        color="#A8F0FF"
+        color="#B6F06A"
         distance={20}
         decay={1.7}
         castShadow={false}
@@ -2033,7 +2032,7 @@ function SoftFillRig() {
         angle={0.5}
         penumbra={0.88}
         intensity={0.55}
-        color="#C4FFF0"
+        color="#D9FFB8"
         distance={18}
         decay={1.7}
         castShadow={false}
@@ -2068,10 +2067,10 @@ function Scene({ mouse, quality, mode, travelRef }) {
       <color attach="background" args={[WATER]} />
       {/* Softer fog so deep assets still read */}
       <fog attach="fog" args={[WATER, 8, 36]} />
-      <ambientLight intensity={0.42} color="#4AA8B8" />
-      <directionalLight position={[0, 16, 2]} intensity={1.15} color="#F0FFFC" />
-      <directionalLight position={[6, 8, 4]} intensity={0.35} color="#9AE0F0" />
-      <directionalLight position={[-5, 3, -2]} intensity={0.22} color="#024850" />
+      <ambientLight intensity={0.42} color="#4A6A48" />
+      <directionalLight position={[0, 16, 2]} intensity={1.15} color="#EAF6D8" />
+      <directionalLight position={[6, 8, 4]} intensity={0.35} color="#70C431" />
+      <directionalLight position={[-5, 3, -2]} intensity={0.22} color="#1A1D1E" />
       <hemisphereLight args={['#C4F4F8', '#2A1A08', 0.75]} />
       <SoftFillRig />
 
