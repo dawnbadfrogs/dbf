@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')).render(
         appearance: {
           theme: 'dark',
           accentColor: '#4CFF6B',
-          logo: '/favicon.svg',
+          logo: '/logodbf.png',
           walletChainType: 'solana-only',
           showWalletLoginFirst: true,
           walletList: SOLANA_WALLET_LIST,
