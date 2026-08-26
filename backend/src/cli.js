@@ -8,6 +8,8 @@ import { seedWallet } from './seedWallet.js';
 import { syncDexFills } from './dex/sync.js';
 import { settlePastEpochs } from './settle.js';
 import { startServer } from './server.js';
+import { purgeDemo } from './purgeDemo.js';
+import { syncTreasury } from './treasury.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
 
@@ -87,11 +89,25 @@ if (cmd === 'serve') {
   const indexed = await runIndexer(supabase);
   console.log('ingest-dex', pulled);
   console.log('indexed', indexed);
+} else if (cmd === 'purge-demo') {
+  const supabase = adminClient();
+  const deleted = await purgeDemo(supabase);
+  const indexed = await runIndexer(supabase);
+  let treasury = null;
+  try {
+    treasury = await syncTreasury(supabase);
+  } catch (err) {
+    treasury = { error: err.message };
+  }
+  console.log('purge-demo', deleted);
+  console.log('indexed', indexed);
+  console.log('treasury', treasury);
 } else {
   console.log(`Usage:
   node src/cli.js seed                 wipe demo rows, insert trades, index, settle
   node src/cli.js seed-wallet <addr>   add one Solana wallet + claimable past epoch
   node src/cli.js ingest-dex [--refresh]  pull live DEX fills for non-demo traders
+  node src/cli.js purge-demo           remove seed wallets + dummy treasury, reindex
   node src/cli.js index                replay trades → scores / traders / positions
   node src/cli.js settle               freeze past epochs into claims, expire leftovers
   node src/cli.js serve                claim + index HTTP API

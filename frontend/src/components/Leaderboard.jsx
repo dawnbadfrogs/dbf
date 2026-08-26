@@ -130,7 +130,7 @@ const Leaderboard = ({ active = true, onBack }) => {
                   <tr>
                     <td colSpan={4} className="px-6 py-8">
                       <p className="mb-4 text-center font-semibold text-cartoon-cream/50">
-                        No loss data recorded for this epoch.
+                        Live board · no verified rekt this epoch yet.
                       </p>
                       {!wallet && <ConnectGate title="Be first on the board" body="Connect a wallet so verified losses can attach to you this epoch." />}
                     </td>

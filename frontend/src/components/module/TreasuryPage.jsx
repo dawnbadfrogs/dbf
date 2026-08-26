@@ -1,42 +1,74 @@
 import ModuleShell, { StatCard } from './ModuleShell';
-import { TOKEN_SYMBOL } from '../../lib/config';
-import { formatDbf, formatUsd, formatUtc } from '../../lib/format';
+import { TOKEN_MINT, TOKEN_SYMBOL, TREASURY_WALLET } from '../../lib/config';
+import { formatDbf, formatUsd, formatUtc, shortAddress } from '../../lib/format';
 import { useTreasury } from '../../hooks/useDbfData';
 
+function formatAmt(n, digits = 4) {
+  const v = Number(n || 0);
+  return v.toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: digits,
+  });
+}
+
 export default function TreasuryPage({ active = true, onBack }) {
-  const { epoch, traders, flows, snapshot, rewardPool, loading } = useTreasury();
-  const balance = snapshot?.balance_usd;
-  const epochIn = snapshot?.epoch_in_usd;
+  const { epoch, traders, flows, snapshot, live, rewardPool, loading } = useTreasury();
+  const wallet = live?.wallet || TREASURY_WALLET;
+  const sol = live?.sol;
+  const dbf = live?.dbf;
+  const totalUsd = live?.balanceUsd ?? snapshot?.balance_usd;
+  const coinLive = Boolean(TOKEN_MINT) && Number(dbf || 0) > 0;
+  const explorer = `https://solscan.io/account/${wallet}`;
 
   return (
     <ModuleShell
       title="Treasury"
-      subtitle={`Central pool funding weekly ${TOKEN_SYMBOL} rewards. Live numbers come from verified epoch data.`}
-      badge="Epoch pool"
+      subtitle={`Live balances from the project wallet · ${shortAddress(wallet)}`}
+      badge="On-chain"
       badgeClass="bg-cartoon-yellow text-cartoon-ink"
       active={active}
       onBack={onBack}
     >
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <StatCard
-          label="Treasury balance"
-          value={balance != null ? formatUsd(balance, { digits: 0 }) : 'Awaiting feed'}
-          hint={snapshot ? 'On-chain snapshot' : 'No treasury_snapshots row yet'}
+          label="SOL"
+          value={sol != null ? formatAmt(sol, 4) : 'Reading wallet'}
+          hint={live ? `${formatUsd(live.solValueUsd)} · treasury wallet` : 'Waiting on RPC'}
           accent="text-cartoon-yellow"
         />
         <StatCard
-          label="This epoch reward pool"
-          value={formatDbf(rewardPool)}
-          hint={`${traders.length} ranked wallet${traders.length === 1 ? '' : 's'}`}
+          label={TOKEN_SYMBOL}
+          value={dbf != null ? formatAmt(dbf, 2) : '—'}
+          hint={
+            !TOKEN_MINT
+              ? 'CA not set yet'
+              : coinLive
+                ? formatUsd(live.dbfValueUsd)
+                : 'Coin not live · balance 0'
+          }
           accent="text-pond-green"
         />
         <StatCard
-          label="Next airdrop"
-          value={formatUtc(epoch.end)}
-          hint="Epoch close"
+          label="Total"
+          value={totalUsd != null ? formatUsd(totalUsd) : '—'}
+          hint={`Next epoch ${formatUtc(epoch.end)}`}
           accent="text-[#01D1FD]"
         />
       </div>
+
+      <p className="mb-6 text-center text-xs font-semibold text-cartoon-cream/50">
+        <a
+          href={explorer}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-cartoon-yellow hover:text-cartoon-cream"
+        >
+          {shortAddress(wallet, 6, 6)}
+        </a>
+        {' · '}
+        {traders.length} ranked wallet{traders.length === 1 ? '' : 's'} this epoch
+        {rewardPool > 0 ? ` · ${formatDbf(rewardPool)} estimated pool` : ''}
+      </p>
 
       <div data-mod-block className="toon-panel mb-6 overflow-hidden">
         <div className="border-b-[3px] border-cartoon-ink bg-[#12263A]/90 px-5 py-3">
@@ -48,8 +80,7 @@ export default function TreasuryPage({ active = true, onBack }) {
           <div className="h-40 animate-pulse bg-cartoon-cream/5" />
         ) : flows.length === 0 ? (
           <p className="px-5 py-8 text-center text-sm font-semibold text-cartoon-cream/55">
-            On-chain flow feed is not connected yet
-            {epochIn != null ? ` · epoch in ${formatUsd(epochIn)}` : ''}.
+            Treasury is the live wallet above. Transfers will list here when the feed is connected.
           </p>
         ) : (
           <ul className="divide-y divide-cartoon-ink/30">
@@ -74,15 +105,6 @@ export default function TreasuryPage({ active = true, onBack }) {
             })}
           </ul>
         )}
-      </div>
-
-      <div data-mod-block className="toon-panel p-5 text-center md:p-6">
-        <p className="text-sm font-semibold text-cartoon-cream/75">
-          Airdrop status:{' '}
-          <span className="font-extrabold text-pond-green">
-            {rewardPool > 0 ? 'Pool sized from live ranks · pays at epoch close' : 'Waiting for ranked losses'}
-          </span>
-        </p>
       </div>
     </ModuleShell>
   );

@@ -2,7 +2,10 @@ import { replayTrades, eligibleLoss } from './engine/pnl.js';
 import { allocateRewards } from './engine/rewards.js';
 import { epochBounds, getCurrentEpoch } from './engine/epoch.js';
 import { getConfig } from './db.js';
+import { DEMO_WALLETS } from './demoWallets.js';
 import { normalizeAddress } from './solana.js';
+
+const DEMO = new Set(DEMO_WALLETS);
 
 function norm(addr) {
   return normalizeAddress(addr);
@@ -19,7 +22,7 @@ export async function runIndexer(supabase, { pool } = {}) {
   const byWallet = new Map();
   for (const trade of list) {
     const wallet = norm(trade.wallet_address);
-    if (!wallet) continue;
+    if (!wallet || DEMO.has(wallet)) continue;
     if (!byWallet.has(wallet)) byWallet.set(wallet, []);
     byWallet.get(wallet).push({ ...trade, wallet_address: wallet });
   }
@@ -123,6 +126,15 @@ export async function runIndexer(supabase, { pool } = {}) {
       .from('traders')
       .upsert(traderRows, { onConflict: 'wallet_address' });
     if (traderErr) throw traderErr;
+  }
+
+  const liveWallets = new Set(traderRows.map((r) => r.wallet_address));
+  const { data: existingTraders } = await supabase.from('traders').select('wallet_address');
+  const stale = (existingTraders || [])
+    .map((r) => r.wallet_address)
+    .filter((w) => DEMO.has(w) || !liveWallets.has(norm(w)));
+  if (stale.length) {
+    await supabase.from('traders').delete().in('wallet_address', stale);
   }
 
   if (positions.length) {

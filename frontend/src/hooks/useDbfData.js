@@ -7,9 +7,14 @@ import { bytesToBase64 } from '../lib/wallet';
 import { getCurrentEpoch, epochCheckpoints } from '../lib/epoch';
 import { summarizeTrades } from '../utils/pnlCalculator';
 import { NFT_CATALOG } from '../lib/config';
+import { DEMO_WALLETS } from '../lib/demoWallets';
+
+const DEMO = new Set(DEMO_WALLETS);
 
 function rankTraders(rows) {
   return [...(rows || [])]
+    .filter((t) => !DEMO.has(String(t.wallet_address || '').trim()))
+    .filter((t) => Number(t.total_loss || 0) < 0)
     .sort((a, b) => Number(a.total_loss || 0) - Number(b.total_loss || 0))
     .map((trader, index) => ({ ...trader, rank: index + 1 }));
 }
@@ -237,10 +242,13 @@ export function useTreasury() {
   const { traders, loading, error } = useTraders();
   const [flows, setFlows] = useState([]);
   const [snapshot, setSnapshot] = useState(null);
+  const [live, setLive] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    const apiBase = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
+    const load = async () => {
       const [flowRes, snapRes] = await Promise.all([
         fetchTable('treasury_flows', (q) =>
           q.select('*').order('created_at', { ascending: false }).limit(12)
@@ -252,9 +260,25 @@ export function useTreasury() {
       if (cancelled) return;
       setFlows(flowRes.missing ? [] : flowRes.data);
       setSnapshot(snapRes.missing ? null : snapRes.data[0] || null);
-    })();
+
+      if (apiBase) {
+        try {
+          const res = await fetch(`${apiBase}/treasury`);
+          if (res.ok) {
+            const body = await res.json();
+            if (!cancelled) setLive(body);
+          }
+        } catch {
+          /* snapshot fallback */
+        }
+      }
+    };
+
+    load();
+    const id = setInterval(load, 30_000);
     return () => {
       cancelled = true;
+      clearInterval(id);
     };
   }, []);
 
@@ -265,6 +289,7 @@ export function useTreasury() {
     traders,
     flows,
     snapshot,
+    live,
     rewardPool,
     loading,
     error,

@@ -3,7 +3,7 @@ import { adminClient, getConfig } from './db.js';
 import { verifyClaimSignature } from './auth.js';
 import { startCron, runMaintenance } from './cron.js';
 import { ingestTrades, normalizeSolanaFills } from './ingest.js';
-import { syncDexFills } from './dex/sync.js';
+import { readTreasuryWallet } from './treasury.js';
 import { normalizeAddress } from './solana.js';
 import { runIndexer } from './indexer.js';
 import { claimRewards, settlePastEpochs } from './settle.js';
@@ -50,6 +50,11 @@ export function createServer() {
     try {
       if (req.method === 'GET' && url.pathname === '/health') {
         return json(res, 200, { ok: true, cronMs: Number(process.env.CRON_MS || 300000) });
+      }
+
+      if (req.method === 'GET' && url.pathname === '/treasury') {
+        const snap = await readTreasuryWallet();
+        return json(res, 200, snap);
       }
 
       if (req.method === 'POST' && url.pathname === '/index') {

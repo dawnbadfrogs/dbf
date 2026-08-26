@@ -2,6 +2,7 @@ import { adminClient, getConfig } from './db.js';
 import { runIndexer } from './indexer.js';
 import { settlePastEpochs } from './settle.js';
 import { syncDexFills } from './dex/sync.js';
+import { syncTreasury } from './treasury.js';
 
 let timer = null;
 let running = false;
@@ -14,7 +15,13 @@ export async function runMaintenance() {
     const pulled = await syncDexFills(supabase);
     const indexed = await runIndexer(supabase);
     const settled = await settlePastEpochs(supabase);
-    return { pulled, indexed, settled, at: new Date().toISOString() };
+    let treasury = null;
+    try {
+      treasury = await syncTreasury(supabase);
+    } catch (err) {
+      console.error('[cron] treasury', err.message);
+    }
+    return { pulled, indexed, settled, treasury, at: new Date().toISOString() };
   } finally {
     running = false;
   }
@@ -26,7 +33,7 @@ export function startCron() {
   timer = setInterval(() => {
     runMaintenance().catch((err) => console.error('[cron]', err.message));
   }, ms);
-  console.log(`[cron] dex ingest + index + settle every ${Math.round(ms / 1000)}s`);
+  console.log(`[cron] dex ingest + index + settle + treasury every ${Math.round(ms / 1000)}s`);
 }
 
 export function stopCron() {
