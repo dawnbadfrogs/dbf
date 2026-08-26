@@ -1,0 +1,23 @@
+{
+  "name": "dbf-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/cli.js serve",
+    "seed": "node src/cli.js seed",
+    "index": "node src/cli.js index",
+    "settle": "node src/cli.js settle",
+    "ingest-dex": "node src/cli.js ingest-dex",
+    "serve": "node src/cli.js serve",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.2",
+    "bs58": "^6.0.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
