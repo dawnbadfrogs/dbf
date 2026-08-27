@@ -49,6 +49,12 @@ export const NFT_CATALOG = [
   },
 ];
 
+export const NFT_LOOKS = [
+  { id: 'norm', name: 'Normal', src: '/DBF_NORM.PNG', accent: '#70C431' },
+  { id: 'silver', name: 'Silver', src: '/DBF_SILVER.PNG', accent: '#C5D0DC' },
+  { id: 'gold', name: 'Gold', src: '/DBF_GOLD.PNG', accent: '#E8C547' },
+];
+
 export function applyDocumentBranding() {
   if (typeof document === 'undefined') return;
 

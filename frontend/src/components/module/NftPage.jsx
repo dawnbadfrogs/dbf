@@ -2,6 +2,7 @@ import ModuleShell, { StatCard } from './ModuleShell';
 import { useSolanaWallet } from '../../hooks/useSolanaWallet';
 import { useNfts } from '../../hooks/useDbfData';
 import {
+  NFT_LOOKS,
   NFT_MINT_URL,
   NFT_PRICE_USD,
   NFT_SUPPLY,
@@ -28,6 +29,34 @@ export default function NftPage({ active = true, onBack }) {
       active={active}
       onBack={onBack}
     >
+      <div className="mb-6 grid gap-4 sm:grid-cols-3">
+        {NFT_LOOKS.map((look) => (
+          <figure
+            key={look.id}
+            data-mod-block
+            className="toon-panel overflow-hidden"
+          >
+            <div className="bg-pond-dark">
+              <img
+                src={look.src}
+                alt={`Bad Frog Genesis ${look.name}`}
+                className="aspect-square w-full object-contain"
+              />
+            </div>
+            <figcaption className="flex items-center justify-between border-t-[3px] border-cartoon-ink px-4 py-3">
+              <span className="text-sm font-extrabold uppercase tracking-wider text-cartoon-cream">
+                {look.name}
+              </span>
+              <span
+                className="h-2.5 w-2.5 rounded-full border-2 border-cartoon-ink"
+                style={{ background: look.accent }}
+                aria-hidden="true"
+              />
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <StatCard label="Mint price" value={`$${NFT_PRICE_USD}`} hint="Per NFT" accent="text-[#FE77BC]" />
         <StatCard label="Supply" value={SUPPLY_LABEL} hint="Genesis collection" accent="text-cartoon-yellow" />
