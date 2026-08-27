@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import HeroCanvas from '../components/HeroCanvas';
@@ -62,6 +63,33 @@ export default function LandingPage() {
   const infoPage = route.view === 'info' ? route.id : null;
 
   const handlePreloaderComplete = useCallback(() => setIntroReady(true), []);
+
+  useLayoutEffect(() => {
+    if (!introReady) return undefined;
+    const pond = document.querySelector('.galaxy-bg');
+    const hero = document.querySelector('.hero-stage');
+    const nav = document.querySelector('.navbar-glass');
+    if (prefersReducedMotion()) {
+      if (pond) gsap.set(pond, { scale: 1 });
+      if (hero) gsap.set(hero, { scale: 1, opacity: 1 });
+      if (nav) gsap.set(nav, { y: 0, opacity: 1 });
+      return undefined;
+    }
+    const tl = gsap.timeline();
+    if (pond) {
+      gsap.set(pond, { scale: 1.14 });
+      tl.to(pond, { scale: 1, duration: 0.9, ease: 'power3.out' }, 0);
+    }
+    if (hero) {
+      gsap.set(hero, { scale: 0.92, opacity: 0 });
+      tl.to(hero, { scale: 1, opacity: 1, duration: 0.72, ease: 'power3.out' }, 0.06);
+    }
+    if (nav) {
+      gsap.set(nav, { y: -18, opacity: 0 });
+      tl.to(nav, { y: 0, opacity: 1, duration: 0.48, ease: 'power2.out' }, 0.12);
+    }
+    return () => tl.kill();
+  }, [introReady]);
 
   const enterHub = useCallback(() => {
     if (transitioning.current || phase !== 'hero') return;

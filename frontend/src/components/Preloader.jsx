@@ -8,35 +8,18 @@ const prefersReducedMotion = () =>
 const ASSETS = ['/frog.glb'];
 const TITLE_LINES = ['DAWN BAD', 'FROGS'];
 const TITLE = TITLE_LINES.join('\n');
-const CHAR_MS = 110;
-/** Time-based 0→100% bar (asset load does not jump the UI) */
+/** Half the previous 110ms cadence */
+const CHAR_MS = 55;
+/** Smooth 0→100 fill, independent of asset jumps */
 const PROGRESS_MS = 2600;
-const FAILSAFE_MS = 4000;
+const FAILSAFE_MS = 5000;
 
-function smoothstep(t) {
-  const x = Math.max(0, Math.min(1, t));
-  return x * x * (3 - 2 * x);
-}
-
-function loadWithProgress(onProgress) {
+function loadAssets() {
   return Promise.all(
     ASSETS.map(async (url) => {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Failed to load ${url}`);
-      const total = Number(res.headers.get('content-length') || 0);
-      if (!res.body || !total) {
-        await res.blob();
-        onProgress(1);
-        return;
-      }
-      const reader = res.body.getReader();
-      let loaded = 0;
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        loaded += value.byteLength;
-        onProgress(Math.min(1, loaded / total));
-      }
+      await res.blob();
     })
   );
 }
@@ -57,7 +40,7 @@ export default function Preloader({ onComplete }) {
     let n = 0;
     const id = window.setInterval(() => {
       n += 1;
-      setTyped(n);
+      setTyped(Math.min(n, TITLE.length));
       if (n >= TITLE.length) window.clearInterval(id);
     }, CHAR_MS);
     return () => window.clearInterval(id);
@@ -65,34 +48,32 @@ export default function Preloader({ onComplete }) {
 
   useEffect(() => {
     let cancelled = false;
-    const finish = () => {
-      if (cancelled) return;
-      cancelled = true;
-      const reveal = () => {
-        setDone(true);
-        onComplete?.();
-      };
-      if (prefersReducedMotion() || !rootRef.current) {
-        reveal();
-        return;
-      }
-      const exit = gsap.timeline({ onComplete: reveal });
-      if (dockRef.current) {
-        exit.to(dockRef.current, { y: 40, opacity: 0, duration: 0.35, ease: 'power2.in' });
-      }
-      exit.to(rootRef.current, { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, dockRef.current ? '-=0.1' : 0);
-    };
+    const fill = fillRef.current;
+    const percentEl = percentRef.current;
 
     const setPct = (v) => {
       const n = Math.round(Math.max(0, Math.min(100, v)));
-      if (percentRef.current) percentRef.current.textContent = `${n}%`;
-      if (fillRef.current) fillRef.current.style.width = `${n}%`;
+      if (percentEl) percentEl.textContent = `${n}%`;
     };
 
-    const failsafe = window.setTimeout(() => {
+    const finish = () => {
+      if (cancelled) return;
+      cancelled = true;
       setPct(100);
-      finish();
-    }, FAILSAFE_MS);
+      if (fill) gsap.set(fill, { scaleX: 1 });
+      onComplete?.();
+      if (prefersReducedMotion() || !rootRef.current) {
+        setDone(true);
+        return;
+      }
+      const exit = gsap.timeline({ onComplete: () => setDone(true) });
+      if (dockRef.current) {
+        exit.to(dockRef.current, { y: 36, opacity: 0, duration: 0.32, ease: 'power2.in' });
+      }
+      exit.to(rootRef.current, { opacity: 0, duration: 0.48, ease: 'power2.inOut' }, dockRef.current ? '-=0.12' : 0);
+    };
+
+    const failsafe = window.setTimeout(finish, FAILSAFE_MS);
 
     if (prefersReducedMotion()) {
       finish();
@@ -106,37 +87,32 @@ export default function Preloader({ onComplete }) {
       gsap.fromTo(
         dockRef.current,
         { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }
       );
     }
 
-    const started = performance.now();
-    let loadDone = false;
-
-    const tick = window.setInterval(() => {
-      if (cancelled) return;
-      const elapsed = performance.now() - started;
-      const t = Math.min(1, elapsed / PROGRESS_MS);
-      const eased = smoothstep(t);
-      setPct(t >= 1 && !loadDone ? 99 : eased * 100);
-
-      if (t >= 1 && loadDone) {
-        window.clearInterval(tick);
-        setPct(100);
-        finish();
-      }
-    }, 40);
-
-    loadWithProgress(() => {})
-      .catch(() => {})
-      .finally(() => {
-        loadDone = true;
+    let barTween = null;
+    if (fill) {
+      gsap.set(fill, { scaleX: 0 });
+      barTween = gsap.to(fill, {
+        scaleX: 1,
+        duration: PROGRESS_MS / 1000,
+        ease: 'none',
+        onUpdate() {
+          setPct(this.progress() * 100);
+        },
+        onComplete: finish,
       });
+    } else {
+      finish();
+    }
+
+    loadAssets().catch(() => {});
 
     return () => {
       cancelled = true;
       window.clearTimeout(failsafe);
-      window.clearInterval(tick);
+      barTween?.kill();
     };
   }, [onComplete]);
 
@@ -186,10 +162,7 @@ export default function Preloader({ onComplete }) {
           <span className="preloader-mark preloader-mark-d" aria-hidden="true" />
 
           <div className="preloader-capsule relative h-7 md:h-9 flex-1 overflow-hidden rounded-xl border-[3px] border-cartoon-ink bg-cartoon-sky shadow-[3px_3px_0_#111314]">
-            <div
-              ref={fillRef}
-              className="preloader-fill absolute inset-y-0 left-0 w-0 rounded-lg"
-            />
+            <div ref={fillRef} className="preloader-fill" />
           </div>
 
           <span className="preloader-mark preloader-mark-star" aria-hidden="true" />

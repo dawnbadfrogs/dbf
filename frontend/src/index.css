@@ -93,6 +93,7 @@ body {
   pointer-events: none;
   overflow: hidden;
   background: #1A1D1E;
+  transform-origin: 50% 48%;
 }
 
 .galaxy-bg .hero-canvas {
@@ -1032,11 +1033,11 @@ body {
   50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
 }
 
-/* Intro loader — typewriter title over a slightly blurred pond */
+/* Intro loader — typewriter title over a blurred pond */
 .preloader {
-  background: rgba(17, 19, 20, 0.32);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(26, 29, 30, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .preloader-title {
@@ -1100,9 +1101,11 @@ body {
 }
 
 .preloader-fill {
-  position: relative;
-  overflow: hidden;
-  will-change: width;
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
   background: linear-gradient(90deg, #3F8A1C 0%, #70C431 55%, #D9FFB8 100%);
   box-shadow: inset 0 1px 0 rgba(217, 255, 184, 0.45);
 }
