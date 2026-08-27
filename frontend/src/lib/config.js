@@ -1,6 +1,6 @@
 export const TOKEN_MINT = '4C9ycNvkDZMxvF6cWPa5qfMHMSbu8vB7nK6MVpKspump';
 export const TOKEN_DECIMALS = 6;
-export const TREASURY_WALLET = 'DBFvENgwyMbhfj7Jrbo78TQt63mt6njnPf7KySsVzCWn';
+export const TREASURY_WALLET = 'DBFnC5gJ7ZuuXafiwBLuZjMj9F2dbnBXJ1J44sA2hqwD';
 
 export const SOCIAL = {
   x: 'https://x.com/DawnBadFrogs',

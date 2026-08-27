@@ -5,7 +5,7 @@ const TOKEN_PROGRAM = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 const TOKEN_2022 = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
 
 export function treasuryWallet() {
-  return String(process.env.TREASURY_WALLET || 'DBFvENgwyMbhfj7Jrbo78TQt63mt6njnPf7KySsVzCWn').trim();
+  return String(process.env.TREASURY_WALLET || 'DBFnC5gJ7ZuuXafiwBLuZjMj9F2dbnBXJ1J44sA2hqwD').trim();
 }
 
 export function tokenMint() {
