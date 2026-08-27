@@ -130,16 +130,18 @@ export default function LandingPage() {
           />
         </div>
 
-        <Navbar
-          onLogoClick={showStarsBack ? goHub : goHome}
-          showCenterNav={showCenterNav}
-          onHub={showStarsBack ? goHub : undefined}
-          onNavLink={openInfo}
-          activeNav={infoPage}
-        />
+        {introReady && (
+          <Navbar
+            onLogoClick={showStarsBack ? goHub : goHome}
+            showCenterNav={showCenterNav}
+            onHub={showStarsBack ? goHub : undefined}
+            onNavLink={openInfo}
+            activeNav={infoPage}
+          />
+        )}
 
         <main className="relative z-[1]">
-          {showHero && (
+          {showHero && introReady && (
             <HeroSection
               phase={phase}
               onGetStarted={enterHub}

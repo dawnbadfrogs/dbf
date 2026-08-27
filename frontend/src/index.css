@@ -1032,10 +1032,10 @@ body {
   50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
 }
 
-/* Intro loader — artwork fill, dock on top */
+/* Intro loader — title art over live pond */
 .preloader {
-  will-change: opacity;
-  background: #000;
+  background: transparent;
+  isolation: auto;
 }
 
 .preloader-world {
@@ -1044,6 +1044,7 @@ body {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .preloader-bg {
@@ -1055,14 +1056,9 @@ body {
   object-position: center;
 }
 
-.preloader-vignette {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 32%);
-}
-
 .preloader-dock {
   will-change: transform, opacity;
+  isolation: isolate;
 }
 
 .preloader-fill {

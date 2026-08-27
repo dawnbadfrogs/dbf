@@ -133,7 +133,6 @@ export default function Preloader({ onComplete }) {
     >
       <div className="preloader-world" aria-hidden="true">
         <img className="preloader-bg" src="/BGG.PNG" alt="" />
-        <div className="preloader-vignette" />
       </div>
 
       <div
