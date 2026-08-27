@@ -1155,8 +1155,6 @@ body {
 }
 
 .preloader-lily::after {
-
-.preloader-lily::after {
   content: '';
   position: absolute;
   left: 48%;
