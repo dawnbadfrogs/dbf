@@ -10,12 +10,13 @@ import { FrogMesh } from './ToonFrogs';
  */
 const ORBS = [
   {
-    id: 'leaderboard',
-    label: 'Rekt Leaderboard',
-    accent: '#70C431',
-    // Sit on the pond sand bed (matches HeroCanvas LakeBed ~y -2.9)
-    path: { x: -0.55, y: 0, floor: -2.42 },
-    form: 'classic',
+    id: 'nft',
+    label: 'NFT',
+    accent: '#FE77BC',
+    // Front of the pond — sits on the sand bed
+    path: { x: -0.25, y: 0, floor: -2.42 },
+    lines: ['$1 mint', '1,111 supply'],
+    form: 'stylish',
   },
   {
     id: 'portfolio',
@@ -42,12 +43,11 @@ const ORBS = [
     form: 'king',
   },
   {
-    id: 'nft',
-    label: 'NFT',
-    accent: '#FE77BC',
-    path: { x: -0.25, y: 0.5 },
-    lines: ['$1 mint', '1,111 supply'],
-    form: 'stylish',
+    id: 'leaderboard',
+    label: 'Rekt Leaderboard',
+    accent: '#70C431',
+    path: { x: -0.55, y: 0.5 },
+    form: 'classic',
   },
 ];
 
