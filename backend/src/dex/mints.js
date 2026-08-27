@@ -17,7 +17,7 @@ export const MINT_SYMBOL = {
   JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN: 'JUP',
   EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm: 'WIF',
   '7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr': 'POPCAT',
-  '4C9ycNvkDZMxvF6cWPa5qfMHMSbu8vB7nK6MVpKspump': 'DBF',
+  'FXsLk1A1tzMLHTU4TwD888wrwt4ohdFTzReSRtMepump': 'DBF',
 };
 
 export function isQuoteMint(mint) {

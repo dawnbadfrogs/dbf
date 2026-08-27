@@ -1,4 +1,4 @@
-export const TOKEN_MINT = '4C9ycNvkDZMxvF6cWPa5qfMHMSbu8vB7nK6MVpKspump';
+export const TOKEN_MINT = 'FXsLk1A1tzMLHTU4TwD888wrwt4ohdFTzReSRtMepump';
 export const TOKEN_DECIMALS = 6;
 export const TREASURY_WALLET = 'DBFnC5gJ7ZuuXafiwBLuZjMj9F2dbnBXJ1J44sA2hqwD';
 
