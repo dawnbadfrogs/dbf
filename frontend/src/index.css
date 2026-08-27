@@ -1032,28 +1032,66 @@ body {
   50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
 }
 
-/* Intro loader — title art over live pond */
+/* Intro loader — typewriter title over a slightly blurred pond */
 .preloader {
-  background: transparent;
-  isolation: auto;
+  background: rgba(17, 19, 20, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.preloader-world {
+.preloader-title {
   position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
+  inset: 0 1rem 22vh;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
-  mix-blend-mode: screen;
+  text-align: center;
 }
 
-.preloader-bg {
+.preloader-title-line {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+.preloader-title-ghost {
+  display: block;
+  visibility: hidden;
+}
+
+.preloader-title-live {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  white-space: pre;
+}
+
+.preloader-title .slime-type {
+  font-size: clamp(2.5rem, 11vw, 7rem);
+  letter-spacing: 0.04em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.preloader-caret {
+  display: inline-block;
+  width: 0.11em;
+  height: 0.78em;
+  margin-left: 0.08em;
+  flex-shrink: 0;
+  background: #70C431;
+  box-shadow: 2px 3px 0 #000;
+  animation: preloader-caret 0.7s step-end infinite;
+}
+
+@keyframes preloader-caret {
+  50% { opacity: 0; }
 }
 
 .preloader-dock {
@@ -1086,7 +1124,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .preloader-fill::after {
+  .preloader-fill::after,
+  .preloader-caret {
     animation: none !important;
   }
 }

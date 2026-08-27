@@ -5,7 +5,10 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const ASSETS = ['/frog.glb', '/BGG.PNG'];
+const ASSETS = ['/frog.glb'];
+const TITLE_LINES = ['DAWN BAD', 'FROGS'];
+const TITLE = TITLE_LINES.join('\n');
+const CHAR_MS = 110;
 /** Time-based 0→100% bar (asset load does not jump the UI) */
 const PROGRESS_MS = 2600;
 const FAILSAFE_MS = 4000;
@@ -44,6 +47,21 @@ export default function Preloader({ onComplete }) {
   const fillRef = useRef(null);
   const dockRef = useRef(null);
   const [done, setDone] = useState(false);
+  const [typed, setTyped] = useState(0);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setTyped(TITLE.length);
+      return undefined;
+    }
+    let n = 0;
+    const id = window.setInterval(() => {
+      n += 1;
+      setTyped(n);
+      if (n >= TITLE.length) window.clearInterval(id);
+    }, CHAR_MS);
+    return () => window.clearInterval(id);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -124,6 +142,12 @@ export default function Preloader({ onComplete }) {
 
   if (done) return null;
 
+  const shown = TITLE.slice(0, typed);
+  const [line1 = '', line2 = ''] = shown.split('\n');
+  const onLine2 = shown.includes('\n');
+  const finished = typed >= TITLE.length;
+  const live = [line1, line2];
+
   return (
     <div
       ref={rootRef}
@@ -131,9 +155,21 @@ export default function Preloader({ onComplete }) {
       aria-busy="true"
       aria-live="polite"
     >
-      <div className="preloader-world" aria-hidden="true">
-        <img className="preloader-bg" src="/BGG.PNG" alt="" />
-      </div>
+      <h1 className="preloader-title">
+        <span className="sr-only">Dawn Bad Frogs</span>
+        {TITLE_LINES.map((line, i) => {
+          const showCaret = !finished && ((i === 0 && !onLine2) || (i === 1 && onLine2));
+          return (
+            <span key={line} className="preloader-title-line" aria-hidden="true">
+              <span className="preloader-title-ghost slime-type">{line}</span>
+              <span className="preloader-title-live">
+                <span className="slime-type">{live[i]}</span>
+                {showCaret ? <span className="preloader-caret" /> : null}
+              </span>
+            </span>
+          );
+        })}
+      </h1>
 
       <div
         ref={dockRef}
