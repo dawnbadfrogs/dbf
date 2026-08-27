@@ -6,6 +6,8 @@ const HIGHLIGHT_KEYS = new Set([
   'BAD',
   'FROGS.',
   '$DBF',
+  'GENESIS',
+  'NFTS',
   'REKT TO EARN,',
   'LEADERBOARDS',
   'TREASURY',
@@ -15,8 +17,8 @@ const LINES = [
   ['STEP', 'INTO', 'DAWN', 'BAD', 'FROGS.'],
   ['WE', 'TURN', 'YOUR', 'WORST'],
   ['TRADES', 'INTO', '$DBF'],
-  ['THROUGH', 'REKT TO EARN,', 'LOSS', '&'],
-  ['LEADERBOARDS', '&', 'TREASURY', 'REWARDS'],
+  ['GENESIS', 'NFTS'],
+  ['REKT TO EARN,', 'LEADERBOARDS', '&', 'TREASURY'],
 ];
 
 /**
