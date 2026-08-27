@@ -96,6 +96,11 @@ body {
   transform-origin: 50% 48%;
 }
 
+.galaxy-bg--frosted .hero-canvas {
+  filter: blur(18px);
+  transform: translateZ(0);
+}
+
 .galaxy-bg .hero-canvas {
   position: absolute;
   inset: 0;
@@ -565,6 +570,7 @@ body {
   overflow: hidden;
   background: #1A1D1E;
   pointer-events: none;
+  transform-origin: 50% 48%;
 }
 
 /* —— Underwater atmosphere (depth + sand bed) —— */
@@ -1033,11 +1039,9 @@ body {
   50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
 }
 
-/* Intro loader — typewriter title over a blurred pond */
+/* Intro loader — title over the frosted pond */
 .preloader {
-  background: rgba(26, 29, 30, 0.04);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: transparent;
 }
 
 .preloader-title {

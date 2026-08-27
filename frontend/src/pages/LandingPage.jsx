@@ -39,6 +39,7 @@ export default function LandingPage() {
   const moduleRef = useRef(null);
   const infoRef = useRef(null);
   const hubRef = useRef(null);
+  const pondRef = useRef(null);
   const transitioning = useRef(false);
   const prevPhaseRef = useRef(null);
   const travelRef = useRef(0);
@@ -65,28 +66,35 @@ export default function LandingPage() {
   const handlePreloaderComplete = useCallback(() => setIntroReady(true), []);
 
   useLayoutEffect(() => {
-    if (!introReady) return undefined;
-    const pond = document.querySelector('.galaxy-bg');
+    const pond = pondRef.current;
+    const scene = pond?.querySelector('.hero-canvas');
     const hero = document.querySelector('.hero-stage');
     const nav = document.querySelector('.navbar-glass');
+
+    if (!introReady) {
+      if (scene) gsap.set(scene, { filter: 'blur(18px)' });
+      return undefined;
+    }
+
     if (prefersReducedMotion()) {
-      if (pond) gsap.set(pond, { scale: 1 });
+      if (scene) gsap.set(scene, { filter: 'blur(0px)', scale: 1 });
       if (hero) gsap.set(hero, { scale: 1, opacity: 1 });
       if (nav) gsap.set(nav, { y: 0, opacity: 1 });
       return undefined;
     }
+
     const tl = gsap.timeline();
-    if (pond) {
-      gsap.set(pond, { scale: 1.14 });
-      tl.to(pond, { scale: 1, duration: 0.9, ease: 'power3.out' }, 0);
+    if (scene) {
+      gsap.set(scene, { filter: 'blur(18px)', scale: 1.05 });
+      tl.to(scene, { filter: 'blur(0px)', scale: 1, duration: 0.95, ease: 'power3.out' }, 0);
     }
     if (hero) {
       gsap.set(hero, { scale: 0.92, opacity: 0 });
-      tl.to(hero, { scale: 1, opacity: 1, duration: 0.72, ease: 'power3.out' }, 0.06);
+      tl.to(hero, { scale: 1, opacity: 1, duration: 0.72, ease: 'power3.out' }, 0.08);
     }
     if (nav) {
       gsap.set(nav, { y: -18, opacity: 0 });
-      tl.to(nav, { y: 0, opacity: 1, duration: 0.48, ease: 'power2.out' }, 0.12);
+      tl.to(nav, { y: 0, opacity: 1, duration: 0.48, ease: 'power2.out' }, 0.14);
     }
     return () => tl.kill();
   }, [introReady]);
@@ -149,7 +157,11 @@ export default function LandingPage() {
     <>
       <Preloader onComplete={handlePreloaderComplete} />
       <div className="app-shell relative min-h-screen overflow-x-clip text-white">
-        <div className="galaxy-bg" aria-hidden="true">
+        <div
+          ref={pondRef}
+          className={`galaxy-bg${introReady ? '' : ' galaxy-bg--frosted'}`}
+          aria-hidden="true"
+        >
           <HeroCanvas
             mode={canvasMode}
             webgl={webglPond}
