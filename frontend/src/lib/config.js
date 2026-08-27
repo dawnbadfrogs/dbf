@@ -25,7 +25,8 @@ export const INFO_IDS = ['about', 'faq', 'docs'];
 /** Modules shown as coming soon in the pond hub and module pages */
 export const SOON_MODULES = new Set();
 
-export const NFT_PRICE_USD = 1;
+export const NFT_PRICE_SOL = 0.01;
+export const NFT_PRICE_LABEL = `${NFT_PRICE_SOL} SOL`;
 export const NFT_SUPPLY = 1111;
 export const NFT_MINT_URL = String(import.meta.env.VITE_LMNFT_URL || '').trim();
 
@@ -44,7 +45,7 @@ export const NFT_CATALOG = [
     name: 'Bad Frog Genesis',
     supply: '1,111',
     status: 'Live',
-    floor: '$1',
+    floor: NFT_PRICE_LABEL,
     accent: '#FE77BC',
   },
 ];

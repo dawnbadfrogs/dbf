@@ -127,7 +127,7 @@ export async function seedDemo(supabase) {
       name: 'Bad Frog Genesis',
       supply: '1,111',
       status: 'Live',
-      floor: '$1',
+      floor: '0.01 SOL',
       accent: '#FE77BC',
     },
   ];

@@ -92,7 +92,7 @@ insert into public.treasury_flows (label, amount, type) values
   ('Epoch 1 reward pool', 100000, 'out');
 
 insert into public.nft_collections (id, name, supply, status, floor, accent) values
-  ('genesis', 'Bad Frog Genesis', '1,111', 'Live', '$1', '#FE77BC')
+  ('genesis', 'Bad Frog Genesis', '1,111', 'Live', '0.01 SOL', '#FE77BC')
 on conflict (id) do nothing;
 
 insert into public.nft_holders (wallet_address, collection_id) values

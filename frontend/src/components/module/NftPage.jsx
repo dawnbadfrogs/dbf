@@ -4,7 +4,7 @@ import { useNfts } from '../../hooks/useDbfData';
 import {
   NFT_LOOKS,
   NFT_MINT_URL,
-  NFT_PRICE_USD,
+  NFT_PRICE_LABEL,
   NFT_SUPPLY,
   NFT_UPGRADE_NOTE,
   NFT_UPGRADES,
@@ -23,7 +23,7 @@ export default function NftPage({ active = true, onBack }) {
   return (
     <ModuleShell
       title="NFT"
-      subtitle={`Bad Frog Genesis · $${NFT_PRICE_USD} · ${SUPPLY_LABEL} supply · minted on LaunchMyNFT`}
+      subtitle={`Bad Frog Genesis · ${NFT_PRICE_LABEL} · ${SUPPLY_LABEL} supply · minted on LaunchMyNFT`}
       badge="Live"
       badgeClass="bg-[#FE77BC] text-cartoon-ink"
       active={active}
@@ -58,7 +58,7 @@ export default function NftPage({ active = true, onBack }) {
       </div>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Mint price" value={`$${NFT_PRICE_USD}`} hint="Per NFT" accent="text-[#FE77BC]" />
+        <StatCard label="Mint price" value={NFT_PRICE_LABEL} hint="Per NFT" accent="text-[#FE77BC]" />
         <StatCard label="Supply" value={SUPPLY_LABEL} hint="Genesis collection" accent="text-cartoon-yellow" />
         <StatCard
           label="Mint"
@@ -72,7 +72,7 @@ export default function NftPage({ active = true, onBack }) {
         <p className="text-xs font-bold uppercase tracking-wider text-cartoon-yellow">Genesis drop</p>
         <h3 className="mt-2 text-2xl font-extrabold text-cartoon-cream">Bad Frog Genesis</h3>
         <p className="mt-3 max-w-xl text-sm font-semibold leading-relaxed text-cartoon-cream/70">
-          Pond cosmetics, holder boosts, and epoch perks. Full 1,111 supply is public at $1,
+          Pond cosmetics, holder boosts, and epoch perks. Full 1,111 supply is public at {NFT_PRICE_LABEL},
           minted on LaunchMyNFT.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-3">

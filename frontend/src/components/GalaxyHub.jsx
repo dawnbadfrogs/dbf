@@ -15,7 +15,7 @@ const ORBS = [
     accent: '#FE77BC',
     // Front of the pond — sits on the sand bed
     path: { x: -0.25, y: 0, floor: -2.42 },
-    lines: ['$1 mint', '1,111 supply'],
+    lines: ['0.01 SOL mint', '1,111 supply'],
     form: 'stylish',
   },
   {

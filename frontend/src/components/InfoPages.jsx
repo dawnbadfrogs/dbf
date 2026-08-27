@@ -83,7 +83,7 @@ export function AboutPage({ onBack }) {
         <ul className="space-y-2 text-sm font-semibold text-cartoon-cream/80 md:text-base">
           <li>· Explore the pond hub and enter live modules</li>
           <li>· Climb the Rekt Leaderboard each epoch</li>
-          <li>· Watch treasury flows · mint Bad Frog Genesis at $1</li>
+          <li>· Watch treasury flows · mint Bad Frog Genesis at 0.01 SOL</li>
           <li>· Connect when you are ready to play for real</li>
         </ul>
       </Panel>
@@ -155,7 +155,7 @@ export function DocsPage({ onBack }) {
             <span className="text-cartoon-yellow">Treasury</span> epoch pool and treasury flows.
           </li>
           <li>
-            <span className="text-[#FE77BC]">NFT</span> Bad Frog Genesis is live — $1, supply 1,111, 100% public, minted on LaunchMyNFT.
+            <span className="text-[#FE77BC]">NFT</span> Bad Frog Genesis is live — 0.01 SOL, supply 1,111, 100% public, minted on LaunchMyNFT.
           </li>
         </ul>
       </Panel>
