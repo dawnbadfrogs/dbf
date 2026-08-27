@@ -33,7 +33,13 @@ export default function TreasuryPage({ active = true, onBack }) {
         <StatCard
           label="SOL"
           value={sol != null ? formatAmt(sol, 4) : 'Reading wallet'}
-          hint={live ? `${formatUsd(live.solValueUsd)} · treasury wallet` : 'Waiting on RPC'}
+          hint={
+            live?.solUsd > 0
+              ? `${formatUsd(live.solValueUsd)} · treasury wallet`
+              : live
+                ? 'Treasury wallet'
+                : 'Waiting on RPC'
+          }
           accent="text-cartoon-yellow"
         />
         <StatCard

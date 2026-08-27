@@ -4,12 +4,19 @@ const RPC = () => process.env.SOLANA_RPC_URL || 'https://api.mainnet-beta.solana
 const TOKEN_PROGRAM = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 const TOKEN_2022 = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
 
+const LIVE_TREASURY = 'DBFnC5gJ7ZuuXafiwBLuZjMj9F2dbnBXJ1J44sA2hqwD';
+const LIVE_MINT = 'FXsLk1A1tzMLHTU4TwD888wrwt4ohdFTzReSRtMepump';
+const RETIRED_TREASURY = new Set(['DBFvENgwyMbhfj7Jrbo78TQt63mt6njnPf7KySsVzCWn']);
+const RETIRED_MINT = new Set(['4C9ycNvkDZMxvF6cWPa5qfMHMSbu8vB7nK6MVpKspump']);
+
 export function treasuryWallet() {
-  return String(process.env.TREASURY_WALLET || 'DBFnC5gJ7ZuuXafiwBLuZjMj9F2dbnBXJ1J44sA2hqwD').trim();
+  const w = String(process.env.TREASURY_WALLET || LIVE_TREASURY).trim();
+  return !w || RETIRED_TREASURY.has(w) ? LIVE_TREASURY : w;
 }
 
 export function tokenMint() {
-  return String(process.env.TOKEN_MINT || '').trim();
+  const m = String(process.env.TOKEN_MINT || LIVE_MINT).trim();
+  return !m || RETIRED_MINT.has(m) ? LIVE_MINT : m;
 }
 
 function sleep(ms) {

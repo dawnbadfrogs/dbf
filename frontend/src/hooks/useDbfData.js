@@ -6,8 +6,9 @@ import { buildClaimMessage } from '../lib/claim';
 import { bytesToBase64 } from '../lib/wallet';
 import { getCurrentEpoch, epochCheckpoints } from '../lib/epoch';
 import { summarizeTrades } from '../utils/pnlCalculator';
-import { NFT_CATALOG } from '../lib/config';
+import { NFT_CATALOG, TREASURY_WALLET } from '../lib/config';
 import { DEMO_WALLETS } from '../lib/demoWallets';
+import { readTreasuryOnchain } from '../lib/treasuryOnchain';
 
 const DEMO = new Set(DEMO_WALLETS);
 
@@ -261,17 +262,26 @@ export function useTreasury() {
       setFlows(flowRes.missing ? [] : flowRes.data);
       setSnapshot(snapRes.missing ? null : snapRes.data[0] || null);
 
+      let nextLive = null;
       if (apiBase) {
         try {
           const res = await fetch(`${apiBase}/treasury`);
           if (res.ok) {
             const body = await res.json();
-            if (!cancelled) setLive(body);
+            if (addressesMatch(body?.wallet, TREASURY_WALLET)) nextLive = body;
           }
         } catch {
-          /* snapshot fallback */
+          /* fall through to on-chain */
         }
       }
+      if (!nextLive) {
+        try {
+          nextLive = await readTreasuryOnchain();
+        } catch {
+          /* keep previous live */
+        }
+      }
+      if (!cancelled && nextLive) setLive(nextLive);
     };
 
     load();
