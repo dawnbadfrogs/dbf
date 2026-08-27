@@ -127,10 +127,31 @@ export default function Preloader({ onComplete }) {
   return (
     <div
       ref={rootRef}
-      className="preloader fixed inset-0 z-[100] overflow-hidden bg-transparent text-cartoon-cream"
+      className="preloader fixed inset-0 z-[100] overflow-hidden text-cartoon-cream"
       aria-busy="true"
       aria-live="polite"
     >
+      <div className="preloader-world" aria-hidden="true">
+        <div className="preloader-swamp" />
+        <div className="preloader-caustics" />
+        <div className="preloader-rays" />
+        <div className="preloader-mesh" />
+        <span className="preloader-ripple preloader-ripple--a" />
+        <span className="preloader-ripple preloader-ripple--b" />
+        <img className="preloader-mascot" src="/logodbf.png" alt="" />
+        <span className="preloader-lily" style={{ '--x': '7%', '--y': '54%', '--s': '1.15', '--r': '-16deg' }} />
+        <span className="preloader-lily" style={{ '--x': '76%', '--y': '50%', '--s': '0.9', '--r': '22deg' }} />
+        <span className="preloader-lily preloader-lily--sm" style={{ '--x': '16%', '--y': '68%', '--s': '0.7', '--r': '8deg' }} />
+        <span className="preloader-lily preloader-lily--sm" style={{ '--x': '84%', '--y': '64%', '--s': '1.05', '--r': '-8deg' }} />
+        <div className="preloader-bubbles">
+          {Array.from({ length: 12 }, (_, i) => (
+            <span key={i} style={{ '--i': i }} />
+          ))}
+        </div>
+        <div className="preloader-sand" />
+        <div className="preloader-vignette" />
+      </div>
+
       <div
         ref={dockRef}
         className="preloader-dock absolute bottom-0 left-0 right-0 z-10 px-5 md:px-8 pb-6 md:pb-8 pt-4"
@@ -148,7 +169,7 @@ export default function Preloader({ onComplete }) {
           <div className="preloader-capsule relative h-7 md:h-9 flex-1 overflow-hidden rounded-xl border-[3px] border-cartoon-ink bg-cartoon-sky shadow-[3px_3px_0_#111314]">
             <div
               ref={fillRef}
-              className="preloader-fill absolute inset-y-0 left-0 w-0 rounded-lg bg-pond-green"
+              className="preloader-fill absolute inset-y-0 left-0 w-0 rounded-lg"
             />
           </div>
 
