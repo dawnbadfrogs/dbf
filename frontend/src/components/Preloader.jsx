@@ -5,7 +5,7 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const ASSETS = ['/frog.glb'];
+const ASSETS = ['/frog.glb', '/BGG.PNG'];
 /** Time-based 0→100% bar (asset load does not jump the UI) */
 const PROGRESS_MS = 2600;
 const FAILSAFE_MS = 4000;
@@ -132,23 +132,7 @@ export default function Preloader({ onComplete }) {
       aria-live="polite"
     >
       <div className="preloader-world" aria-hidden="true">
-        <div className="preloader-swamp" />
-        <div className="preloader-caustics" />
-        <div className="preloader-rays" />
-        <div className="preloader-mesh" />
-        <span className="preloader-ripple preloader-ripple--a" />
-        <span className="preloader-ripple preloader-ripple--b" />
-        <img className="preloader-mascot" src="/logodbf.png" alt="" />
-        <span className="preloader-lily" style={{ '--x': '7%', '--y': '54%', '--s': '1.15', '--r': '-16deg' }} />
-        <span className="preloader-lily" style={{ '--x': '76%', '--y': '50%', '--s': '0.9', '--r': '22deg' }} />
-        <span className="preloader-lily preloader-lily--sm" style={{ '--x': '16%', '--y': '68%', '--s': '0.7', '--r': '8deg' }} />
-        <span className="preloader-lily preloader-lily--sm" style={{ '--x': '84%', '--y': '64%', '--s': '1.05', '--r': '-8deg' }} />
-        <div className="preloader-bubbles">
-          {Array.from({ length: 12 }, (_, i) => (
-            <span key={i} style={{ '--i': i }} />
-          ))}
-        </div>
-        <div className="preloader-sand" />
+        <img className="preloader-bg" src="/BGG.PNG" alt="" />
         <div className="preloader-vignette" />
       </div>
 
